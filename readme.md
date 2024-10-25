@@ -2,7 +2,7 @@
 
 ## Reciprocals of Fermat primes
 
-$\frac{1}{7}=0.\overline{142857}$
+$\frac{1}{7}=0.$<span style="text-decoration:overline">142857</span>
 
 ## Demo
 
