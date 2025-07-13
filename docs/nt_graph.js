@@ -87,3 +87,38 @@ function computePath(a=1, n=37, base=35) {
         .style("stroke", "blue")
         .style("fill", "none");
 }
+
+
+function downloadSVG() {
+    // Get the SVG element
+    var svg = document.getElementById("svg-path");
+    if (!svg) {
+        alert("No SVG found to download.");
+        return;
+    }
+
+    // Serialize the SVG XML
+    var serializer = new XMLSerializer();
+    var source = serializer.serializeToString(svg);
+
+    // Add namespaces if missing
+    if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+        source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+    if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+        source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+    }
+
+    // Add XML declaration
+    source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+    // Create a Blob and a download link
+    var svgBlob = new Blob([source], {type:"image/svg+xml;charset=utf-8"});
+    var svgUrl = URL.createObjectURL(svgBlob);
+    var downloadLink = document.createElement("a");
+    downloadLink.href = svgUrl;
+    downloadLink.download = "visualization.svg";
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
